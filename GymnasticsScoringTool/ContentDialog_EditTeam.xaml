@@ -19,7 +19,16 @@
             <TextBlock Text="Team Name: " VerticalAlignment="Top"></TextBlock>
             <TextBox x:Name="TextBox_TeamName"  Text="Gobbledy gook which should be replaced by constructor" 
                      Margin="10,0,0,0" Padding="0,0,0,0"  VerticalAlignment="Top"
-                     GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus"></TextBox>
+                     GotFocus="textBoxTeamName_GotFocus" LostFocus="textBoxTeamName_LostFocus"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" x:Name="StackPanel_OnlyDispayForNewTeamSetup">
+            <TextBlock Text="Team Number: " VerticalAlignment="Top"></TextBlock>
+            <TextBox x:Name="TextBox_TeamNumber"  PlaceholderText="Auto Generate (Highly Recommended)" 
+                     Margin="10,0,0,0" Padding="0,0,0,0"  VerticalAlignment="Top"
+                     GotFocus="textBoxTeamNbr_GotFocus" LostFocus="textBoxTeamNbr_LostFocus"></TextBox>
+            <Button VerticalAlignment="Stretch" Margin="20,0,0,10" BorderThickness="2" BorderBrush="Gray"
+                    Background="LightGray" Content="Add Team" Click="ButtonAddTeam_Click"
+                    Padding="4,2,4,2" x:Name="Button_AddTeam"></Button>
         </StackPanel>
         <gymnasticsScoringTool:UserControl_EditGymnast x:Name="EditGymnasts_UserControl"></gymnasticsScoringTool:UserControl_EditGymnast>
     </StackPanel>

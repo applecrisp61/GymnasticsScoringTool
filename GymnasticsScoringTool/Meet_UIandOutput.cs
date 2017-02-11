@@ -86,12 +86,12 @@ namespace GymnasticsScoringTool {
         }
 
         public static List<string> TeamNamesWithUpdatedGymnasts() {
-            var nbrs = from u in _eventEditingUpdates
-                       select u.Item1 / ProgramConstants.TEAM_NUMBERING_OFFSET;
+            var gymnastNbrs = from u in _eventEditingUpdates
+                              select u.Item1;
 
             List<string> teamList = new List<string>();
-            foreach (var nbr in nbrs) {
-                string teamName = GetTeamWithNumber(nbr).name;
+            foreach (var nbr in gymnastNbrs) {
+                string teamName = GetGymnast(nbr).team.name;
                 if (teamList.Contains(teamName)) continue;
                 teamList.Add(teamName);
             }
@@ -483,7 +483,7 @@ namespace GymnasticsScoringTool {
                 if (idx < teamsOrdered.Count()) { nextScore = teamsOrdered.ElementAt(idx).teamScore(eventString, d); }
                 else { nextScore = noMoreScores; }
 
-                if (t.number == teamNbr) {
+                if (t.numberBase == teamNbr) {
                     return ((t.teamScore(eventString, d) == prevScore) ? prevRank.ToString() : idx.ToString())
                         + (((t.teamScore(eventString, d) == prevScore) || (t.teamScore(eventString, d) == nextScore)) ? "T" : " ");
                 }
@@ -503,7 +503,7 @@ namespace GymnasticsScoringTool {
             var teamsOrdered = OrderTeamsForThisRanking(eventString, d);
             if (teamsOrdered.Count() == 0) { return -1; }
 
-            int topTeamNbr = teamsOrdered.ElementAt(0).number;
+            int topTeamNbr = teamsOrdered.ElementAt(0).numberBase;
 
             double? teamScore;
             double? topScore;
@@ -546,26 +546,26 @@ namespace GymnasticsScoringTool {
             switch (eventString.ToUpper()) {
             case "VAULT":
                 teamsOrdered = from t in _teams
-                               where TeamScoreVault(t.number, d) > 0
-                               orderby TeamScoreVault(t.number, d) descending
+                               where TeamScoreVault(t.numberBase, d) > 0
+                               orderby TeamScoreVault(t.numberBase, d) descending
                                select t;
                 break;
             case "BARS":
                 teamsOrdered = from t in _teams
-                               where TeamScoreBars(t.number, d) > 0
-                               orderby TeamScoreBars(t.number, d) descending
+                               where TeamScoreBars(t.numberBase, d) > 0
+                               orderby TeamScoreBars(t.numberBase, d) descending
                                select t;
                 break;
             case "BEAM":
                 teamsOrdered = from t in _teams
-                               where TeamScoreBeam(t.number, d) > 0
-                               orderby TeamScoreBeam(t.number, d) descending
+                               where TeamScoreBeam(t.numberBase, d) > 0
+                               orderby TeamScoreBeam(t.numberBase, d) descending
                                select t;
                 break;
             case "FLOOR":
                 teamsOrdered = from t in _teams
-                               where TeamScoreFloor(t.number, d) > 0
-                               orderby TeamScoreFloor(t.number, d) descending
+                               where TeamScoreFloor(t.numberBase, d) > 0
+                               orderby TeamScoreFloor(t.numberBase, d) descending
                                select t;
                 break;
             case "OVERALL":
@@ -575,14 +575,14 @@ namespace GymnasticsScoringTool {
             case "INDIVIDUAL ALL-AROUND":
             case "INDIVIDUAL OVERALL":
                 teamsOrdered = from t in _teams
-                               where TeamScoreOverall(t.number, d) > 0
-                               orderby TeamScoreOverall(t.number, d) descending
+                               where TeamScoreOverall(t.numberBase, d) > 0
+                               orderby TeamScoreOverall(t.numberBase, d) descending
                                select t;
                 break;
             default:
                 teamsOrdered = from t in _teams
-                               where TeamScoreOverall(t.number, d) > 0
-                               orderby TeamScoreOverall(t.number, d) descending
+                               where TeamScoreOverall(t.numberBase, d) > 0
+                               orderby TeamScoreOverall(t.numberBase, d) descending
                                select t;
                 break;
             }
@@ -599,11 +599,11 @@ namespace GymnasticsScoringTool {
             var rankedTeams = OrderTeamsForThisRanking("Overall", div);
 
             foreach (Team t in rankedTeams) {
-                sb.AppendLine("#" + TeamRankString(t.number, "Overall", div) + " " + HelperMethods.FormatScore(Meet.TeamScoreOverall(t.number, div)) + " > " + t.name);
-                sb.AppendLine("    Vault: " + HelperMethods.FormatScore(Meet.TeamScoreVault(t.number, div)));
-                sb.AppendLine("    Bars : " + HelperMethods.FormatScore(Meet.TeamScoreBars(t.number, div)));
-                sb.AppendLine("    Beam : " + HelperMethods.FormatScore(Meet.TeamScoreBeam(t.number, div)));
-                sb.AppendLine("    Floor: " + HelperMethods.FormatScore(Meet.TeamScoreFloor(t.number, div)));
+                sb.AppendLine("#" + TeamRankString(t.numberBase, "Overall", div) + " " + HelperMethods.FormatScore(Meet.TeamScoreOverall(t.numberBase, div)) + " > " + t.name);
+                sb.AppendLine("    Vault: " + HelperMethods.FormatScore(Meet.TeamScoreVault(t.numberBase, div)));
+                sb.AppendLine("    Bars : " + HelperMethods.FormatScore(Meet.TeamScoreBars(t.numberBase, div)));
+                sb.AppendLine("    Beam : " + HelperMethods.FormatScore(Meet.TeamScoreBeam(t.numberBase, div)));
+                sb.AppendLine("    Floor: " + HelperMethods.FormatScore(Meet.TeamScoreFloor(t.numberBase, div)));
                 sb.AppendLine();
             }
 
@@ -635,41 +635,41 @@ namespace GymnasticsScoringTool {
 
             foreach (Team t in rankedTeams) {
                 var teamList = new List<Inline>();
-                teamList.Add(new Run() { Text = "#" + TeamRankString(t.number, "Overall", div) +" " + 
-                    HelperMethods.FormatScore(Meet.TeamScoreOverall(t.number, div)) + " > " + t.name });
+                teamList.Add(new Run() { Text = "#" + TeamRankString(t.numberBase, "Overall", div) +" " + 
+                    HelperMethods.FormatScore(Meet.TeamScoreOverall(t.numberBase, div)) + " > " + t.name });
 
                 contentHolder = new Tuple<string, string, string, string, string, string>("", "Vault", "Bars", "Beam", "Floor", "Total");
                 teamList.Add(new Run() { Text = ArrangeLine_Normal(stopPoints, contentHolder) });
 
                 contentHolder = new Tuple<string, string, string, string, string, string>("Score by event:", 
-                    HelperMethods.FormatScore(TeamScoreVault(t.number, div)),
-                    HelperMethods.FormatScore(TeamScoreBars(t.number, div)),
-                    HelperMethods.FormatScore(TeamScoreBeam(t.number, div)),
-                    HelperMethods.FormatScore(TeamScoreFloor(t.number, div)),
-                    HelperMethods.FormatScore(TeamScoreOverall(t.number, div)));
+                    HelperMethods.FormatScore(TeamScoreVault(t.numberBase, div)),
+                    HelperMethods.FormatScore(TeamScoreBars(t.numberBase, div)),
+                    HelperMethods.FormatScore(TeamScoreBeam(t.numberBase, div)),
+                    HelperMethods.FormatScore(TeamScoreFloor(t.numberBase, div)),
+                    HelperMethods.FormatScore(TeamScoreOverall(t.numberBase, div)));
                 teamList.Add(new Run() { Text = ArrangeLine_Normal(stopPoints, contentHolder) });
 
                 contentHolder = new Tuple<string, string, string, string, string, string>("Team rank by event:",
-                    TeamRankString(t.number, "Vault", div),
-                    TeamRankString(t.number, "Bars", div),
-                    TeamRankString(t.number, "Beam", div),
-                    TeamRankString(t.number, "Floor", div),
-                    TeamRankString(t.number, "Overall", div));
+                    TeamRankString(t.numberBase, "Vault", div),
+                    TeamRankString(t.numberBase, "Bars", div),
+                    TeamRankString(t.numberBase, "Beam", div),
+                    TeamRankString(t.numberBase, "Floor", div),
+                    TeamRankString(t.numberBase, "Overall", div));
                 teamList.Add(new Run() { Text = ArrangeLine_Normal(stopPoints, contentHolder) });
 
                 contentHolder = new Tuple<string, string, string, string, string, string>("Gap to highest team:",
-                    HelperMethods.FormatScore(GapToHighestTeam(t.number, "Vault", div)),
-                    HelperMethods.FormatScore(GapToHighestTeam(t.number, "Bars", div)),
-                    HelperMethods.FormatScore(GapToHighestTeam(t.number, "Beam", div)),
-                    HelperMethods.FormatScore(GapToHighestTeam(t.number, "Floor", div)),
-                    HelperMethods.FormatScore(GapToHighestTeam(t.number, "Overall", div)));
+                    HelperMethods.FormatScore(GapToHighestTeam(t.numberBase, "Vault", div)),
+                    HelperMethods.FormatScore(GapToHighestTeam(t.numberBase, "Bars", div)),
+                    HelperMethods.FormatScore(GapToHighestTeam(t.numberBase, "Beam", div)),
+                    HelperMethods.FormatScore(GapToHighestTeam(t.numberBase, "Floor", div)),
+                    HelperMethods.FormatScore(GapToHighestTeam(t.numberBase, "Overall", div)));
                 teamList.Add(new Run() { Text = ArrangeLine_Normal(stopPoints, contentHolder) });
 
                 contentHolder = new Tuple<string, string, string, string, string, string>("", "", "", "", "", "");
                 teamList.Add(new Run() { Text = ArrangeLine_Normal(stopPoints, contentHolder) });
 
                 var gymnastsOnTeam = from g in _gymnasts
-                                     where g.team.number == t.number
+                                     where g.team.numberBase == t.numberBase
                                      where div == null || g.division.name == div.name || div.name == ProgramConstants.INCLUDE_ALL_DIVISIONS
                                      where g.vaultScore.score.HasValue || g.barsScore.score.HasValue || g.beamScore.score.HasValue || g.floorScore.score.HasValue
                                      orderby g.IComparableOverallScore descending
@@ -1086,8 +1086,8 @@ namespace GymnasticsScoringTool {
             TeamsQualified.Text = "";
             TeamsQualified.Margin = standardSpacing;
             foreach (Team t in _teamQualifiers) {
-                TeamsQualified.Text += "#" + TeamRankString(t.number, "Overall", d) + " " 
-                    + HelperMethods.FormatScore_Mono(TeamScoreOverall(t.number, d), true)  
+                TeamsQualified.Text += "#" + TeamRankString(t.numberBase, "Overall", d) + " " 
+                    + HelperMethods.FormatScore_Mono(TeamScoreOverall(t.numberBase, d), true)  
                     + " " + t.name;
                 TeamsQualified.Text += Environment.NewLine;
             }
@@ -1266,8 +1266,8 @@ namespace GymnasticsScoringTool {
             string TeamsQualifiedRunString = "";
             TeamsQualified.Margin = standardSpacing;
             foreach (Team t in _teamQualifiers) {
-                TeamsQualifiedRunString += "#" + TeamRankString(t.number, "Overall", d) + " "
-                    + HelperMethods.FormatScore_Mono(TeamScoreOverall(t.number, d), true)
+                TeamsQualifiedRunString += "#" + TeamRankString(t.numberBase, "Overall", d) + " "
+                    + HelperMethods.FormatScore_Mono(TeamScoreOverall(t.numberBase, d), true)
                     + " " + t.name;
                 TeamsQualifiedRunString += Environment.NewLine;
             }
