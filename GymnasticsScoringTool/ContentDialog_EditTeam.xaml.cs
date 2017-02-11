@@ -5,6 +5,7 @@ using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
@@ -12,13 +13,15 @@ using Windows.UI.Xaml.Media;
 
 namespace GymnasticsScoringTool {
     public sealed partial class ContentDialog_EditTeam : ContentDialog {
-        string _previousValue;
+        string _teamNamePreviousValue;
+        string _teamNbrPreviousString;
         bool _newTeam = true;
         public bool newTeam {
             get { return _newTeam; }
             set { _newTeam = value; }
         }
-        int _rosterSizeBefore = 0;
+        private int _rosterSizeBefore = 0;
+        private bool _teamExists = false;
 
         public ContentDialog_EditTeam(Team team = null) {
             this.InitializeComponent();
@@ -45,6 +48,10 @@ namespace GymnasticsScoringTool {
                 }
 
                 titleControl.Content = "Edit Team";
+                _teamExists = true;
+                if (TeamSetupStackPanel.Children.Contains(StackPanel_OnlyDispayForNewTeamSetup)) {
+                    TeamSetupStackPanel.Children.Remove(StackPanel_OnlyDispayForNewTeamSetup);
+                }
             }
             else {
                 var tempDO = HelperMethods.GetFirstVisualTreeElementWithName(this, "Title");
@@ -225,81 +232,100 @@ namespace GymnasticsScoringTool {
 
             HelperMethods.RemoveAllButHeaderRowFromGrid(editGymnastsGrid);
 
-            object o = TeamSetupStackPanel.FindName("TextBox_TeamName");
-            if (o is TextBox) {
-                TextBox tBx = o as TextBox;
-                tBx.IsEnabled = true;
-                tBx.Text = ProgramConstants.TEAM_NOT_SET_TEXT;
+            if (!TeamSetupStackPanel.Children.Contains(StackPanel_OnlyDispayForNewTeamSetup)) {
+                TeamSetupStackPanel.Children.Remove(EditGymnasts_UserControl);
+                TeamSetupStackPanel.Children.Add(StackPanel_OnlyDispayForNewTeamSetup);
+                TeamSetupStackPanel.Children.Add(EditGymnasts_UserControl);
             }
+
+            TextBox_TeamName.IsEnabled = true;
+            TextBox_TeamName.Text = ProgramConstants.TEAM_NOT_SET_TEXT;
+            TextBox_TeamName.FontWeight = FontWeights.Normal;
+
+            TextBox_TeamNumber.IsEnabled = true;
+            TextBox_TeamNumber.Text = "";
+            TextBox_TeamNumber.FontWeight = FontWeights.Normal;
+
+            Button_AddTeam.IsEnabled = true;
 
             MainPage._currentlySelectedTeam = null;
+            _teamExists = false;
         }
 
-        private static void debugInfoDisplay_deletionQueue(IEnumerable<FrameworkElement> ie_fe) {
-
-            TextBlock debugTbkSpacer = new TextBlock();
-            debugTbkSpacer.Text = " -- spacer -- ";
-            MainPage._publicStaticDebugSpace.Children.Add(debugTbkSpacer);
-
-            foreach (FrameworkElement fe in ie_fe) { 
-                int row = Grid.GetRow(fe);
-                int col = Grid.GetColumn(fe);
-
-                string contentString = "null";
-                if (fe is TextBlock) { contentString = (fe as TextBlock).Text; }
-                if (fe is TextBox) { contentString = (fe as TextBox).Text; }
-
-                string debugText = "Row: " + row.ToString() + "; col: " + col.ToString() + "; type: " + fe.GetType().Name + "; content: " + contentString;
-
-                TextBlock debugTbk = new TextBlock();
-                debugTbk.Text = debugText;
-                MainPage._publicStaticDebugSpace.Children.Add(debugTbk);
-            }
-        }
-
-        private void textBox_GotFocus(object sender, RoutedEventArgs e) {
+        private void textBoxTeamName_GotFocus(object sender, RoutedEventArgs e) {
             TextBox textBox = sender as TextBox;
             if (textBox == null) {
                 throw new Exception_UnexpectedDataTypeEncountered((new TextBox()).GetType(), sender.GetType());
             }
 
-            _previousValue = textBox.Text;
+            _teamNamePreviousValue = textBox.Text;
             textBox.SelectAll();
+
+            Button_AddTeam.IsEnabled = true;
         }
 
-        private void textBox_LostFocus(object sender, RoutedEventArgs e) {
+        private void textBoxTeamName_LostFocus(object sender, RoutedEventArgs e) {
             TextBox textBox = sender as TextBox;
             if (textBox == null) {
                 throw new Exception_UnexpectedDataTypeEncountered((new TextBox()).GetType(), sender.GetType());
             }
 
-            if (textBox.Text == "") { textBox.Text = _previousValue; return; }
+            if (textBox.Text == "") { textBox.Text = _teamNamePreviousValue; return; }
             if(textBox.Text != ProgramConstants.TEAM_NOT_SET_TEXT) {
                 if(newTeam) { textBox_teamNameSet(sender, e); }
             }
         }
 
         private void textBox_teamNameSet(object sender, RoutedEventArgs e) {
-            TextBox tBx = sender as TextBox;
-            if (tBx == null) {
+            string teamName = TextBox_TeamName.Text;
+
+            if (Meet.ContainsTeam(teamName)) {
+                var fly = TeamConflictFlyout("Team with same name already exists");
+                fly.ShowAt(TextBox_TeamName);
+                Button_AddTeam.IsEnabled = false;
+            }
+        }
+
+        private void textBoxTeamNbr_GotFocus(object sender, RoutedEventArgs e) {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null) {
                 throw new Exception_UnexpectedDataTypeEncountered((new TextBox()).GetType(), sender.GetType());
             }
 
-            // TODO: Handle duplicate team exception
-            Team newTeam = new Team(tBx.Text); 
-            Meet.AddTeam(newTeam);
+            _teamNbrPreviousString = textBox.Text;
+            textBox.SelectAll();
 
-            tBx.IsEnabled = false;
-            tBx.FontWeight = FontWeights.Bold;
-            // tBx.Foreground = new SolidColorBrush(Colors.Maroon); -- Perform this action within storyboard for VisualState "disabled"
+            Button_AddTeam.IsEnabled = true;
+        }
+
+        private void textBoxTeamNbr_LostFocus(object sender, RoutedEventArgs e) {
+            TextBox textBox = sender as TextBox;
+            if (textBox == null) {
+                throw new Exception_UnexpectedDataTypeEncountered((new TextBox()).GetType(), sender.GetType());
+            }
+
+            if(string.IsNullOrEmpty(textBox.Text)) return;
+
+            int nbr = -1;
+            try {
+                nbr = Int32.Parse(textBox.Text);
+            }
+            catch {
+                TeamConflictFlyout($"Could not parse team number entered ({textBox.Text}); should be an integer value; new team not created").ShowAt(textBox);
+                Button_AddTeam.IsEnabled = false;
+            }
+
+            // TODO: Add in logic to make sure not only is the team number available, but that it is spaced adequately
+            if (Meet.ContainsTeam(nbr)) {
+                TeamConflictFlyout($"Team already exists with that team number ({nbr}); new team not created").ShowAt(textBox);
+                Button_AddTeam.IsEnabled = false;
+            }
         }
 
         private void ButtonAddNewGymnast_Click(object sender, RoutedEventArgs e) {
-            if((this.TextBox_TeamName.Text==ProgramConstants.TEAM_NOT_SET_TEXT) || (this.TextBox_TeamName.Text == "")) {
-                TextBlock testTBk = new TextBlock();
-                testTBk.FontSize = 8;
-                testTBk.Text = "TEAM NAME MUST BE SET before a gymnast can be added";
-                MainPage._publicStaticDebugSpace.Children.Add(testTBk);
+            if (!_teamExists) {
+                var fly = TeamNotCreatedFlyout(ProgramConstants.TEAM_NOT_YET_CREATED_MSG);
+                fly.ShowAt(TextBox_TeamName);
                 return;
             }
 
@@ -309,5 +335,82 @@ namespace GymnasticsScoringTool {
             EditGymnasts_UserControl.GymnastToEdit(gymnastToAdd);
         }
 
+        private void ButtonAddTeam_Click(object sender, RoutedEventArgs e) {
+            // TODO: Handle duplicate team exception >> Is it handled by the code on team name and team nbr lost focus?? I think so
+            string teamName = TextBox_TeamName.Text;
+            string teamNbrString = TextBox_TeamNumber.Text;
+
+            if (string.IsNullOrEmpty(teamName)) {
+                var fly = TeamNotCreatedFlyout(ProgramConstants.TEAM_NOT_YET_CREATED_MSG);
+                fly.ShowAt(TextBox_TeamName);
+            }
+
+            try {
+                Team teamToAdd = null;
+                if (string.IsNullOrEmpty(teamNbrString)) {
+                    teamToAdd = new Team(teamName);
+                }
+                else {
+                    int teamNbrBase = Int32.Parse(teamNbrString);
+                    if (Meet.ContainsTeam(teamNbrBase)) {
+                        var teamNbrInUse =
+                            TeamConflictFlyout($"Team with numbers starting at {teamNbrBase} already exists; no new team created");
+                        teamNbrInUse.ShowAt(TextBox_TeamNumber);
+                        return;
+                    }
+                    teamToAdd = new Team(teamName, teamNbrBase);
+                }
+                Meet.AddTeam(teamToAdd);
+
+                TextBox_TeamName.IsEnabled = false;
+                TextBox_TeamName.FontWeight = FontWeights.Bold;
+                TextBox_TeamNumber.IsEnabled = false;
+                Button button = sender as Button;
+                if (button != null) {
+                    button.IsEnabled = false;
+                }
+                _teamExists = true;
+            }
+            catch {
+                var fly = TeamConflictFlyout("Dude, an exception got thrown in team creation. Please try again.");
+                fly.ShowAt(TextBox_TeamName);
+            }
+
+            
+        }
+
+        private Flyout TeamNotCreatedFlyout(string teamNotYetCreatedMsg) {
+            var teamNotCreatedFlyout = new Flyout();
+            teamNotCreatedFlyout.Placement = FlyoutPlacementMode.Full;
+            var teamNotCreatedTextBlock = new TextBlock();
+            teamNotCreatedTextBlock.Text = teamNotYetCreatedMsg;
+            TextBlock teamNotCreatedTitle = new TextBlock();
+            teamNotCreatedTitle.Text = ProgramConstants.TITLE_TEAM_NOT_YET_CREATED;
+            teamNotCreatedTitle.FontSize = FontSize + 2;
+            teamNotCreatedTitle.FontWeight = Windows.UI.Text.FontWeights.Bold;
+            StackPanel teamNotYetCreatedStackPanel = new StackPanel();
+            teamNotYetCreatedStackPanel.Children.Add(teamNotCreatedTitle);
+            teamNotYetCreatedStackPanel.Children.Add(teamNotCreatedTextBlock);
+            teamNotCreatedFlyout.Content = teamNotYetCreatedStackPanel;
+
+            return teamNotCreatedFlyout;
+        }
+
+        private Flyout TeamConflictFlyout(string teamConflictMsg) {
+            var teamConflictFlyout = new Flyout();
+            teamConflictFlyout.Placement = FlyoutPlacementMode.Full;
+            var teamConflictTextBlock = new TextBlock();
+            teamConflictTextBlock.Text = teamConflictMsg;
+            TextBlock teamConflictTitle = new TextBlock();
+            teamConflictTitle.Text = "CONFLICT ON TEAM CREATION";
+            teamConflictTitle.FontSize = FontSize + 2;
+            teamConflictTitle.FontWeight = Windows.UI.Text.FontWeights.Bold;
+            StackPanel teamConflictStackPanel = new StackPanel();
+            teamConflictStackPanel.Children.Add(teamConflictTitle);
+            teamConflictStackPanel.Children.Add(teamConflictTextBlock);
+            teamConflictFlyout.Content = teamConflictStackPanel;
+
+            return teamConflictFlyout;
+        }
     }
 }

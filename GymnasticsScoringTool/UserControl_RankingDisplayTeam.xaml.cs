@@ -18,26 +18,26 @@ namespace GymnasticsScoringTool {
         public UserControl_RankingDisplayTeam(Team t, Division d) {
             this.InitializeComponent();
 
-            TBk_TeamRankScoreName.Text = "#" + Meet.TeamRankString(t.number, "Overall", d) + "  " 
-                + Meet.TeamScoreOverall(t.number, d).ToString() + " > " + t.name;
+            TBk_TeamRankScoreName.Text = "#" + Meet.TeamRankString(t.numberBase, "Overall", d) + "  " 
+                + Meet.TeamScoreOverall(t.numberBase, d).ToString() + " > " + t.name;
 
-            tbkScoreVault.Text = HelperMethods.FormatScore(Meet.TeamScoreVault(t.number, d));
-            tbkScoreBars.Text = HelperMethods.FormatScore(Meet.TeamScoreBars(t.number, d));
-            tbkScoreBeam.Text = HelperMethods.FormatScore(Meet.TeamScoreBeam(t.number, d));
-            tbkScoreFloor.Text = HelperMethods.FormatScore(Meet.TeamScoreFloor(t.number, d));
-            tbkScoreTotal.Text = HelperMethods.FormatScore(Meet.TeamScoreOverall(t.number, d));
+            tbkScoreVault.Text = HelperMethods.FormatScore(Meet.TeamScoreVault(t.numberBase, d));
+            tbkScoreBars.Text = HelperMethods.FormatScore(Meet.TeamScoreBars(t.numberBase, d));
+            tbkScoreBeam.Text = HelperMethods.FormatScore(Meet.TeamScoreBeam(t.numberBase, d));
+            tbkScoreFloor.Text = HelperMethods.FormatScore(Meet.TeamScoreFloor(t.numberBase, d));
+            tbkScoreTotal.Text = HelperMethods.FormatScore(Meet.TeamScoreOverall(t.numberBase, d));
 
-            tbkRankVault.Text = Meet.TeamRankString(t.number, "Vault", d);
-            tbkRankBars.Text = Meet.TeamRankString(t.number, "Bars", d);
-            tbkRankBeam.Text = Meet.TeamRankString(t.number, "Beam", d);
-            tbkRankFloor.Text = Meet.TeamRankString(t.number, "Floor", d);
-            tbkRankTotal.Text = Meet.TeamRankString(t.number, "Overall", d);
+            tbkRankVault.Text = Meet.TeamRankString(t.numberBase, "Vault", d);
+            tbkRankBars.Text = Meet.TeamRankString(t.numberBase, "Bars", d);
+            tbkRankBeam.Text = Meet.TeamRankString(t.numberBase, "Beam", d);
+            tbkRankFloor.Text = Meet.TeamRankString(t.numberBase, "Floor", d);
+            tbkRankTotal.Text = Meet.TeamRankString(t.numberBase, "Overall", d);
 
-            tbkGapVault.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.number, "Vault", d));
-            tbkGapBars.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.number, "Bars", d));
-            tbkGapBeam.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.number, "Beam", d));
-            tbkGapFloor.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.number, "Floor", d));
-            tbkGapTotal.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.number, "Overall", d));
+            tbkGapVault.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.numberBase, "Vault", d));
+            tbkGapBars.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.numberBase, "Bars", d));
+            tbkGapBeam.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.numberBase, "Beam", d));
+            tbkGapFloor.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.numberBase, "Floor", d));
+            tbkGapTotal.Text = HelperMethods.FormatScore(Meet.GapToHighestTeam(t.numberBase, "Overall", d));
 
             var teamRosterTupleEnumerable = Meet.ProvideTeamRoster_TupleEnumerable(t, d);
 

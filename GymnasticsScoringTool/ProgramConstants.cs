@@ -54,6 +54,11 @@ namespace GymnasticsScoringTool {
         public static readonly double INVALID_EVENT_SCORE = -1;
         public static readonly double EPSILON = 0.000001;
 
+        public static readonly string TITLE_TEAM_NOT_YET_CREATED = "TEAM NOT YET CREATED";
+
+        public static readonly string TEAM_NOT_YET_CREATED_MSG =
+            "No team has yet been created; must first create team before you can add gymnast";
+
         public static readonly int MIN_INTEGER_PARAM = 0;
         public static readonly int MAX_INTEGER_PARAM = Int16.MaxValue; // 32,767... 2^15... should be enough
         public static readonly double MIN_DECIMAL_PARAM = 0;

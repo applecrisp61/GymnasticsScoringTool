@@ -67,18 +67,26 @@ namespace GymnasticsScoringTool {
             return false;
         }
 
+        public static bool ContainsTeam(int nbr) {
+            var q = from t in _teams
+                    where t.numberBase == nbr
+                    select t;
+
+            return q.Any();
+        }
+
         public static int GenerateNextTeamNumber()
         {
             int max = 0;
             foreach (Team t in _teams) {
-                if(t.number > max) { max = t.number; }
+                if(t.numberBase > max) { max = t.numberBase; }
             }
-            return max + 1;
+            return max + ProgramConstants.TEAM_NUMBERING_OFFSET;
         }
 
         public static Team GetTeamWithNumber(int nbr) {
             return (from t in _teams
-                    where t.number == nbr
+                    where t.numberBase == nbr
                     select t).Single(); // should only be one
         }
 
@@ -115,7 +123,7 @@ namespace GymnasticsScoringTool {
         
         public static int TeamSize(int n) {
             var query = from g in _gymnasts
-                        where g.team.number == n
+                        where g.team.numberBase == n
                         select g;
 
             return query.Count();
@@ -123,7 +131,7 @@ namespace GymnasticsScoringTool {
 
         public static double? TeamScoreVault(int teamNbr, Division d = null) {
             return (from g in _gymnasts
-                    where g.team.number == teamNbr
+                    where g.team.numberBase == teamNbr
                     where d == null || g.division.name == d.name || d.name == ProgramConstants.INCLUDE_ALL_DIVISIONS
                     orderby g.IComparableVaultScore descending
                     select g.vaultScore.score).Take(Meet.meetParameters.scoresForCompetition).Sum();
@@ -131,7 +139,7 @@ namespace GymnasticsScoringTool {
 
         public static double? TeamScoreBars(int teamNbr, Division d = null) {
             return (from g in _gymnasts
-                    where g.team.number == teamNbr
+                    where g.team.numberBase == teamNbr
                     where d == null || g.division.name == d.name || d.name == ProgramConstants.INCLUDE_ALL_DIVISIONS
                     orderby g.IComparableBarsScore descending
                     select g.barsScore.score).Take(Meet.meetParameters.scoresForCompetition).Sum();
@@ -139,7 +147,7 @@ namespace GymnasticsScoringTool {
 
         public static double? TeamScoreBeam(int teamNbr, Division d = null) {
             return (from g in _gymnasts
-                    where g.team.number == teamNbr
+                    where g.team.numberBase == teamNbr
                     where d == null || g.division.name == d.name || d.name == ProgramConstants.INCLUDE_ALL_DIVISIONS
                     orderby g.IComparableBeamScore descending
                     select g.beamScore.score).Take(Meet.meetParameters.scoresForCompetition).Sum();
@@ -147,7 +155,7 @@ namespace GymnasticsScoringTool {
 
         public static double? TeamScoreFloor(int teamNbr, Division d = null) {
             return (from g in _gymnasts
-                    where g.team.number == teamNbr
+                    where g.team.numberBase == teamNbr
                     where d == null || g.division.name == d.name || d.name == ProgramConstants.INCLUDE_ALL_DIVISIONS
                     orderby g.IComparableFloorScore descending
                     select g.floorScore.score).Take(Meet.meetParameters.scoresForCompetition).Sum();
@@ -285,11 +293,15 @@ namespace GymnasticsScoringTool {
         }
 
         public static int GenerateNextGymnastNumberOnTeam(Team team) {
+            if (team.rosterSize == 0) {
+                return 0;
+            }
+
             int max = 0;
 
             var assignedNumbers = from g in _gymnasts
-                              where g.team.number == team.number
-                              select g.competitorNumber % ProgramConstants.TEAM_NUMBERING_OFFSET;
+                              where g.team.numberBase == team.numberBase
+                              select g.competitorNumber - g.team.numberBase;
 
             foreach (int i in assignedNumbers) {
                 if (i > max) { max = i; }
@@ -382,28 +394,28 @@ namespace GymnasticsScoringTool {
             switch (eventString.ToUpper()) {
             case "VAULT":
                 rankedGymnasts = from g in _gymnasts
-                                 where g.team.number == gymnast.team.number
+                                 where g.team.numberBase == gymnast.team.numberBase
                                  where (d == null || d.name == "" || g.division.name == d.name)
                                  orderby g.IComparableVaultScore descending
                                  select g;
                 break;
             case "BARS":
                 rankedGymnasts = from g in _gymnasts
-                                 where g.team.number == gymnast.team.number
+                                 where g.team.numberBase == gymnast.team.numberBase
                                  where (d == null || d.name == "" || g.division.name == d.name)
                                  orderby g.IComparableBarsScore descending
                                  select g;
                 break;
             case "BEAM":
                 rankedGymnasts = from g in _gymnasts
-                                 where g.team.number == gymnast.team.number
+                                 where g.team.numberBase == gymnast.team.numberBase
                                  where (d == null || d.name == "" || g.division.name == d.name)
                                  orderby g.IComparableBeamScore descending
                                  select g;
                 break;
             case "FLOOR":
                 rankedGymnasts = from g in _gymnasts
-                                 where g.team.number == gymnast.team.number
+                                 where g.team.numberBase == gymnast.team.numberBase
                                  where (d == null || d.name == "" || g.division.name == d.name)
                                  orderby g.IComparableFloorScore descending
                                  select g;

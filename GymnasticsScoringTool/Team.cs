@@ -15,7 +15,7 @@ namespace GymnasticsScoringTool {
 
         [DataMember]
         private int _number;
-        public int number
+        public int numberBase
         {
             get { return _number; }
         }
@@ -24,7 +24,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamSize(this.number);
+                return Meet.TeamSize(this.numberBase);
             }
         }
 
@@ -32,7 +32,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamScoreVault(this.number);
+                return Meet.TeamScoreVault(this.numberBase);
             }
         }
 
@@ -40,7 +40,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamScoreBars(this.number);
+                return Meet.TeamScoreBars(this.numberBase);
             }
         }
 
@@ -48,7 +48,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamScoreBeam(this.number);
+                return Meet.TeamScoreBeam(this.numberBase);
             }
         }
 
@@ -56,7 +56,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamScoreFloor(this.number);
+                return Meet.TeamScoreFloor(this.numberBase);
             }
         }
 
@@ -64,7 +64,7 @@ namespace GymnasticsScoringTool {
         {
             get
             {
-                return Meet.TeamScoreOverall(this.number);
+                return Meet.TeamScoreOverall(this.numberBase);
             }
         }
 
@@ -72,20 +72,20 @@ namespace GymnasticsScoringTool {
 
             switch (eventString.ToUpper()) {
             case "VAULT":
-                return Meet.TeamScoreVault(this.number, d);
+                return Meet.TeamScoreVault(this.numberBase, d);
             case "BARS":
-                return Meet.TeamScoreBars(this.number, d);
+                return Meet.TeamScoreBars(this.numberBase, d);
             case "BEAM":
-                return Meet.TeamScoreBeam(this.number, d);
+                return Meet.TeamScoreBeam(this.numberBase, d);
             case "FLOOR":
-                return Meet.TeamScoreFloor(this.number, d);
+                return Meet.TeamScoreFloor(this.numberBase, d);
             case "OVERALL":
             case "ALL-AROUND":
             case "ALL AROUND":
             case "INDIVIDUAL ALL AROUND":
             case "INDIVIDUAL ALL-AROUND":
             case "INDIVIDUAL OVERALL":
-                return Meet.TeamScoreOverall(this.number, d);
+                return Meet.TeamScoreOverall(this.numberBase, d);
             default:
                 throw new Exception_UnkownEvent(eventString);
             }
@@ -96,18 +96,18 @@ namespace GymnasticsScoringTool {
             this(teamName, Meet.GenerateNextTeamNumber())  
             {}
 
-        private Team(string teamName, int teamNumber) 
+        public Team(string teamName, int teamNumberBase) 
         {
             if (Meet.ContainsTeam(teamName)) {
                 throw new Exception_DuplicateTeamCreationAttempt(teamName);
             }
 
             _name = teamName;
-            _number = teamNumber;
+            _number = teamNumberBase;
         }
 
         public Team(Team t) :
-            this(t.name, t.number)
+            this(t.name, t.numberBase)
             {}
 
         // Overrides
