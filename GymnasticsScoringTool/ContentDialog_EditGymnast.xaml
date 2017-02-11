@@ -1,0 +1,51 @@
+﻿<ContentDialog
+    x:Class="GymnasticsScoringTool.ContentDialog_EditGymnast"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Template="{StaticResource ControlTemplate_ContentDialog}"
+    mc:Ignorable="d">
+    <Grid Margin="0,20,0,0" x:Name="gridEditGymnast">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <!-- FIELD LABELS -->
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Competitor #:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="First name:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Last name:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Team:" HorizontalAlignment="Right" Margin="0,0,10,30"></TextBlock>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Vault:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="Bars:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Beam:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Floor:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Overall:" HorizontalAlignment="Right" Margin="0,0,10,30"></TextBlock>
+        <TextBlock Grid.Row="9" Grid.Column="0" Text="Division:" HorizontalAlignment="Right" Margin="0,0,10,0"></TextBlock>
+
+        <!-- CONTENT -->
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="not initialized" x:Name="tBkNbr"></TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="not initialized" x:Name="tBxFName"></TextBox>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="not initialized" x:Name="tBxLName"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="not initialized" x:Name="tBkTeam" Margin="0,0,0,30"></TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="not initialized" x:Name="tBxVault"></TextBox>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="not initialized" x:Name="tBxBars"></TextBox>
+        <TextBox Grid.Row="6" Grid.Column="1" Text="not initialized" x:Name="tBxBeam"></TextBox>
+        <TextBox Grid.Row="7" Grid.Column="1" Text="not initialized" x:Name="tBxFloor"></TextBox>
+        <TextBlock Grid.Row="8" Grid.Column="1" Text="not initialized" x:Name="tBkOverall" Margin="0,0,0,30"></TextBlock>
+        <TextBlock Grid.Row="9" Grid.Column="1" Text="not initialized" x:Name="tBkDiv"></TextBlock>
+    </Grid>
+</ContentDialog>

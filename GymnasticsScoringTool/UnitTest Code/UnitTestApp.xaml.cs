@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace GymnasticsScoringTool
+namespace UnitTestProject
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -39,12 +39,14 @@ namespace GymnasticsScoringTool
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -64,19 +66,13 @@ namespace GymnasticsScoringTool
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
+            
+            Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
 
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // When the navigation stack isn't restored navigate to the first page,
-                    // configuring the new page by passing required information as a navigation
-                    // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
-                }
-                // Ensure the current window is active
-                Window.Current.Activate();
-            }
+            // Ensure the current window is active
+            Window.Current.Activate();
+
+            Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
 
         /// <summary>
@@ -96,14 +92,10 @@ namespace GymnasticsScoringTool
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        async private void OnSuspending(object sender, SuspendingEventArgs e)
+        private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-
-            //TODO: Save a safety version of the meet info that the user can access if there is an unexpected suspension
-            // Requires the user to go through process of actively saving file (or deciding not to)
-            await MainPage.Current.ManageSuspend_WIP();
-
+            //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
     }

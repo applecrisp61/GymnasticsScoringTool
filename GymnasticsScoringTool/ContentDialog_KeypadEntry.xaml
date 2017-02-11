@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="GymnasticsScoringTool.ContentDialog_KeypadEntry"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:gymnasticsScoringTool="using:GymnasticsScoringTool"
+    mc:Ignorable="d"
+    Template="{StaticResource ControlTemplate_ContentDialog}"
+    Title="Input Competitor Nbr / Score Combos ">
+
+    <StackPanel x:Name="StackPanel_ScoreEdits">
+        <StackPanel Orientation="Horizontal" Margin="10,0,10,0">
+            <TextBlock Text="Team: " 
+                       VerticalAlignment="Top" FontSize="16"></TextBlock>
+            <TextBlock x:Name="TextBlock_TeamName"  Text="Can be any team" 
+                     Margin="5,0,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Normal"></TextBlock>
+            <TextBlock Text="Event: " 
+                       Margin="20,0,0,0" VerticalAlignment="Top" FontSize="16"></TextBlock>
+            <TextBlock x:Name="TextBlock_EventName"  Text="Gobbledy gook which should be replaced by constructor" 
+                     Margin="5,0,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="10,10,10,10">
+            <TextBlock Text="Competitor Nbr:" Margin="0,0,4,0"></TextBlock>
+            <TextBox x:Name="TbxCompetitorNbr" PlaceholderText="XXX" Margin="0,0,4,0" Padding="0"></TextBox>
+            <TextBlock Text="Event Score:" Margin="0,0,4,0"></TextBlock>
+            <TextBox x:Name="TbxEventScore" PlaceholderText="X.XX" Margin="0,0,4,0" Padding="0"></TextBox>
+            <Button x:Name="BtnAdd" Content="ADD" BorderBrush="Gray" BorderThickness="2" Margin="4,0,0,0" 
+                    Padding="4" Background="LightGray"></Button>
+        </StackPanel>
+        <gymnasticsScoringTool:UserControl_EditGymnastForEvent x:Name="EditGymnastsForEvent_UserControl" Margin="10,0,10,0"></gymnasticsScoringTool:UserControl_EditGymnastForEvent>
+    </StackPanel>
+</ContentDialog>

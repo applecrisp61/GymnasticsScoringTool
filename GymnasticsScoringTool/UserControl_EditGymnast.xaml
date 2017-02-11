@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="GymnasticsScoringTool.UserControl_EditGymnast"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="35"
+    d:DesignWidth="756">
+
+    <Grid Margin="0,10,0,2" x:Name="EditGymnastsGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Text="Nbr" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="1" Text="First Name" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="2" Text="Last Name" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="3" Text="Vault" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="4" Text="Bars" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="5" Text="Beam" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="6" Text="Floor" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="7" Text="Overall" FontWeight="Bold"></TextBlock>
+        <TextBlock Grid.Column="8" Text="Division" FontWeight="Bold"></TextBlock>
+    </Grid>
+</UserControl>

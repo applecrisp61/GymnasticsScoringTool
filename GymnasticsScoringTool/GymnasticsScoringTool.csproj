@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{52ee83c6-ea16-4a4c-a6ea-7e9e7e377466}</ProjectGuid>
+    <ProjectGuid>{52EE83C6-EA16-4A4C-A6EA-7E9E7E377466}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GymnasticsScoringTool</RootNamespace>
@@ -16,9 +16,10 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    
     <PackageCertificateKeyFile>GymnasticsScoringTool_TemporaryKey.pfx</PackageCertificateKeyFile>
-    
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -97,18 +98,56 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CalculateQualifiers_Page.xaml.cs" />
+    <Compile Include="ContentDialog_ConfigureDivisions.xaml.cs" />
+    <Compile Include="ContentDialog_EditGymnast.xaml.cs" />
+    <Compile Include="ContentDialog_EditTeam.xaml.cs" />
+    <Compile Include="ContentDialog_EditTeamForEvent.xaml.cs" />
+    <Compile Include="ContentDialog_EditTeamForEventVerification.xaml.cs" />
+    <Compile Include="ContentDialog_GymnastSelector.xaml.cs" />
+    <Compile Include="ContentDialog_KeypadEntry.xaml.cs">
+      <DependentUpon>ContentDialog_KeypadEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialog_KeypadEntryVerification.xaml.cs">
+      <DependentUpon>ContentDialog_KeypadEntryVerification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ContentDialog_MeetParameters.xaml.cs" />
+    <Compile Include="ContentDialog_TeamEventSelector.xaml.cs" />
+    <Compile Include="ContentDialog_TeamSelector.xaml.cs" />
+    <Compile Include="ContinuationPage.xaml.cs" />
+    <Compile Include="CustomizedExceptions.cs" />
+    <Compile Include="Division.cs" />
+    <Compile Include="EventScore.cs" />
+    <Compile Include="FileManagement.cs" />
+    <Compile Include="Gymnast.cs" />
+    <Compile Include="HelperMethods.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Meet.cs" />
+    <Compile Include="MeetParameters.cs" />
+    <Compile Include="MeetSerializeAndRestoreClass.cs" />
+    <Compile Include="Meet_UIandOutput.cs" />
+    <Compile Include="OutputResultsPage.xaml.cs" />
+    <Compile Include="PrintHelper.cs" />
+    <Compile Include="ProgramConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QualificationParameters.cs" />
+    <Compile Include="Qualifiers_PageToPrint.xaml.cs" />
+    <Compile Include="Results_PageToPrint.xaml.cs" />
+    <Compile Include="Sample_PageToPrint.xaml.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="UserControl_EditGymnast.xaml.cs" />
+    <Compile Include="UserControl_EditGymnastForEvent.xaml.cs" />
+    <Compile Include="UserControl_HeadersEditGymnast.xaml.cs" />
+    <Compile Include="UserControl_RankingDisplayGymnast.xaml.cs" />
+    <Compile Include="UserControl_RankingDisplayTeam.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    
     <None Include="GymnasticsScoringTool_TemporaryKey.pfx" />
-    
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -125,16 +164,110 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="CalculateQualifiers_Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_ConfigureDivisions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_EditGymnast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_EditTeam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_EditTeamForEvent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_EditTeamForEventVerification.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_GymnastSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_KeypadEntry.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentDialog_KeypadEntryVerification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ContentDialog_MeetParameters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_TeamEventSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContentDialog_TeamSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ContinuationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ControlTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="OutputResultsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Qualifiers_PageToPrint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Results_PageToPrint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Sample_PageToPrint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StandardStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_EditGymnast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_EditGymnastForEvent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_HeadersEditGymnast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_RankingDisplayGymnast.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControl_RankingDisplayTeam.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
-  
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
-
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

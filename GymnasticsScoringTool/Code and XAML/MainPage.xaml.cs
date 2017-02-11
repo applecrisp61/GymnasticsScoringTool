@@ -21,7 +21,8 @@ using Windows.UI.Xaml.Documents;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
-namespace GymnasticsScoringTool {
+namespace GymnasticsScoringTool_01
+{
 
     internal enum NotifyType {
         ErrorMessage = 0,
@@ -31,7 +32,8 @@ namespace GymnasticsScoringTool {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page {
+    public sealed partial class MainPage : Page
+    {
         private static MainPage _current = null;
         internal static MainPage Current { get { return _current; } }
 
@@ -40,16 +42,13 @@ namespace GymnasticsScoringTool {
         private ContentDialog_TeamSelector _teamSelector_ContentDialog = null;
         private ContentDialog_TeamEventSelector _teamEventSelector_ContentDialog = null;
         private ContentDialog_EditTeamForEvent _editTeamForEvent_ContentDialog = null;
-        private ContentDialog_KeypadEntry _addScoresByKeypadMethod_ContentDialog = null;
         private ContentDialog_EditTeamForEventVerification _editTeamForEventVerification_ContentDialog = null;
-        private ContentDialog_KeypadEntryVerification _addScoresByKeypadEntryVerification_ContentDialog = null;
         private ContentDialog_GymnastSelector _gymnastSelector_ContentDialog = null;
         private ContentDialog_EditGymnast _editGymnast_ContentDialog = null;
         private ContentDialog_ConfigureDivisions _configureDivisions_ContentDialog = null;
 
         public static Team _currentlySelectedTeam = null;
         public static string _currentlySelectedEvent = null;
-        public static bool _scoreEntryByKeypad = false;
         public static int? _currentlySelectedGymnastNbr = null;
         public static Division _currentlySelectedDivision = null;
 
@@ -82,7 +81,7 @@ namespace GymnasticsScoringTool {
             BindingOperations.SetBinding(textBlock_meetLocation, TextBlock.TextProperty, meetLocationBinding);
 
             this.DataContext = Meet.divisions;
-            if (Meet.meetParameters.useDivisions) {
+            if(Meet.meetParameters.useDivisions) {
                 comboBox_useDivisions.SelectedIndex = 1;
                 comboBox_CurrentDivision.IsEnabled = true;
             }
@@ -91,7 +90,7 @@ namespace GymnasticsScoringTool {
                 comboBox_CurrentDivision.IsEnabled = false;
             }
 
-            if (_currentlySelectedDivision != null) {
+            if(_currentlySelectedDivision!=null) {
                 int divIdx = Meet.divisions.IndexOf(_currentlySelectedDivision);
                 comboBox_CurrentDivision.SelectedIndex = divIdx;
             }
@@ -144,7 +143,7 @@ namespace GymnasticsScoringTool {
             // Add commands and set their callbacks; both selections will use the same callback function, which will vary 
             // its behavior based on the selection made
             messageDialog.Commands.Add(
-                new UICommand("USE AUTOSAVED MEET", new UICommandInvokedHandler(this.RecoverAutosaveCommandInvokedHandler)));
+                new UICommand("RECOVER AUTOSAVED MEET", new UICommandInvokedHandler(this.RecoverAutosaveCommandInvokedHandler)));
 
             messageDialog.Commands.Add(
                 new UICommand("DISCARD AUTOSAVED MEET", new UICommandInvokedHandler(this.RecoverAutosaveCommandInvokedHandler)));
@@ -163,7 +162,7 @@ namespace GymnasticsScoringTool {
         private async void RecoverAutosaveCommandInvokedHandler(IUICommand command) {
 
             switch (command.Label) {
-            case "USE AUTOSAVED MEET":
+            case "RECOVER AUTOSAVED MEET":
                 try {
                     await Meet.restoreFromSerialization(ProgramConstants.AUTOSAVE_FILE_NAME, ProgramConstants.AUTOSAVE_FOLDER_ADJ);
                     _existingMeet = true;
@@ -237,12 +236,12 @@ namespace GymnasticsScoringTool {
 
         private async void StartupCommandInvokedHandler(IUICommand command) {
 
-            switch (command.Label) {
+            switch(command.Label) {
             case "EXISTING MEET":
                 try {
                     await Meet.restoreFromSerialization();
                     _existingMeet = true;
-
+                    
                     // TO UNDERSTAND... Not sure how my data binding is working here
                     // especially if the whole ObservableCollection mumbo jumbo is doing anything
                     // I don't think it is (maybe because my updates don't involve using a setter...?)
@@ -282,7 +281,7 @@ namespace GymnasticsScoringTool {
         }
 
         private async void Button_ClickAddOrEditEventScores(object sender, RoutedEventArgs e) {
-            if (_teamEventSelector_ContentDialog == null) {
+            if(_teamEventSelector_ContentDialog==null) {
                 _teamEventSelector_ContentDialog = new ContentDialog_TeamEventSelector();
             }
 
@@ -290,40 +289,18 @@ namespace GymnasticsScoringTool {
                 _editTeamForEvent_ContentDialog = new ContentDialog_EditTeamForEvent();
             }
 
-            if (_addScoresByKeypadMethod_ContentDialog == null) {
-                _addScoresByKeypadMethod_ContentDialog = new ContentDialog_KeypadEntry();
-            }
-
-            if (Meet.TeamCount > 0) {
+            if(Meet.TeamCount > 0) {
                 await _teamEventSelector_ContentDialog.ShowAsync();
+                await _editTeamForEvent_ContentDialog.ShowAsync();
 
-                if (_scoreEntryByKeypad) {
-                    await _addScoresByKeypadMethod_ContentDialog.ShowAsync();
-                }
-                else {
-                    await _editTeamForEvent_ContentDialog.ShowAsync();
-                }
-
-                if (Meet.ScoresToValidate) {
-                    if (_scoreEntryByKeypad) {
-                        if (_addScoresByKeypadEntryVerification_ContentDialog == null) {
-                            _addScoresByKeypadEntryVerification_ContentDialog = new ContentDialog_KeypadEntryVerification();
-                        }
-                        await _addScoresByKeypadEntryVerification_ContentDialog.ShowAsync(); // **
+                if(Meet.ScoresToValidate) {
+                    if(_editTeamForEventVerification_ContentDialog == null) {
+                        _editTeamForEventVerification_ContentDialog = new ContentDialog_EditTeamForEventVerification();
                     }
-                    else { 
-                        if (_editTeamForEventVerification_ContentDialog == null) {
-                            _editTeamForEventVerification_ContentDialog = new ContentDialog_EditTeamForEventVerification();
-                        }
-                        await _editTeamForEventVerification_ContentDialog.ShowAsync(); // **
-                    }
+                    await _editTeamForEventVerification_ContentDialog.ShowAsync(); // **
                 }
 
-                _scoreEntryByKeypad = false;
                 _currentlySelectedEvent = null;
-                if (_currentlySelectedTeamsList == null) {
-                    _currentlySelectedTeamsList = new List<Team>();
-                }
                 _currentlySelectedTeamsList.Clear();
             }
 
@@ -335,7 +312,7 @@ namespace GymnasticsScoringTool {
             if (_teamSelector_ContentDialog == null) { _teamSelector_ContentDialog = new ContentDialog_TeamSelector(); }
             if (_gymnastSelector_ContentDialog == null) { _gymnastSelector_ContentDialog = new ContentDialog_GymnastSelector(); }
             if (_editGymnast_ContentDialog == null) { _editGymnast_ContentDialog = new ContentDialog_EditGymnast(); }
-
+            
             if (Meet.TeamCount > 0) {
                 await _teamSelector_ContentDialog.ShowAsync();
 
@@ -344,7 +321,7 @@ namespace GymnasticsScoringTool {
                 }
                 else { return; }
 
-                if (_currentlySelectedGymnastNbr != null) {
+                if(_currentlySelectedGymnastNbr != null) {
                     await _editGymnast_ContentDialog.ShowAsync();
                 }
 
@@ -381,7 +358,7 @@ namespace GymnasticsScoringTool {
             if (_editTeam_ContentDialog == null) { _editTeam_ContentDialog = new ContentDialog_EditTeam(); }
             if (_teamSelector_ContentDialog == null) { _teamSelector_ContentDialog = new ContentDialog_TeamSelector(); }
 
-            if (commandString.ToUpper().Contains("EDIT") && (Meet.TeamCount > 0)) {
+            if(commandString.ToUpper().Contains("EDIT") && (Meet.TeamCount > 0)) { 
                 await _teamSelector_ContentDialog.ShowAsync();
                 _editTeam_ContentDialog.newTeam = false;
             }
@@ -396,7 +373,7 @@ namespace GymnasticsScoringTool {
 
         /* Related to configuration, enablement, and selection of DIVISIONS */
         private async void Button_ClickConfigureDivisions(object sender, RoutedEventArgs e) {
-            if (_configureDivisions_ContentDialog == null) {
+            if (_configureDivisions_ContentDialog==null) {
                 // Meet.ProgrammaticallyAdjustDivisions();
                 // comboBox_CurrentDivision.SelectedIndex = 0;
                 _configureDivisions_ContentDialog = new ContentDialog_ConfigureDivisions();
@@ -412,10 +389,10 @@ namespace GymnasticsScoringTool {
 
             ComboBox combo = sender as ComboBox;
 
-            if (combo.SelectedIndex == 1) { // 1 should be the index of "ON"; 0 should be the index of "OFF"
+            if(combo.SelectedIndex==1) { // 1 should be the index of "ON"; 0 should be the index of "OFF"
                 Meet.meetParameters.useDivisions = true;
                 comboBox_CurrentDivision.IsEnabled = true;
-                if (comboBox_CurrentDivision.SelectedIndex == -1) { // an initialization value
+                if(comboBox_CurrentDivision.SelectedIndex==-1) { // an initialization value
                     comboBox_CurrentDivision.SelectedIndex = 0; // places us on "All Divisions" / "None Set"
                 }
             }
@@ -452,14 +429,14 @@ namespace GymnasticsScoringTool {
 
             ComboBox combo = sender as ComboBox;
 
-            if (Meet.divisions.Count == 0) { return; } // do nothing in this case
-            if (combo.SelectedIndex == -1) { // the initialization value
+            if(Meet.divisions.Count == 0) { return; } // do nothing in this case
+            if(combo.SelectedIndex==-1) { // the initialization value
                 _currentlySelectedDivision = Meet.divisions.ElementAt(0);
             }
             else {
                 _currentlySelectedDivision = Meet.divisions.ElementAt(combo.SelectedIndex);
             }
-
+            
 
             try { RefreshStandingDisplays(); }
             catch (Exception ex) { HandleRefreshStandingsException(ex); }
@@ -525,7 +502,7 @@ namespace GymnasticsScoringTool {
         private async void Button_ClickManageTeams(object sender, RoutedEventArgs e) {
             await ManageTeamsDialog();
 
-            if (_saveTeams == true) {
+            if(_saveTeams == true) {
                 string unexpectedOutcomeText = "SAVE TEAMS" + Environment.NewLine + Environment.NewLine;
 
                 TextBlock tempShowCommand = new TextBlock();
@@ -586,16 +563,16 @@ namespace GymnasticsScoringTool {
             }
         }
 
-        private async void Button_ClickSaveMeet(object sender, RoutedEventArgs e) {
+        private async void Button_ClickSaveAndExit(object sender, RoutedEventArgs e) {
             await ManageSuspend_WIP(true);
 
             // TODO (high priority before active distribution; medium / low priority while in prelim user trials)
             // Apparently I am not supposed to be calling Exit explicitly... may cause rejection by the App store... need to investigate
-            // Application.Current.Exit();
+            Application.Current.Exit();
         }
 
         internal async Task ManageSuspend_WIP(bool userManaged = false) {
-            if (userManaged) {
+            if(userManaged) { 
                 try { await Meet.sendForSerialization(); }
                 catch { return; } // TODO: Add more robust treatment; currently follow this approach because 
                                   // this likely indicates the file save process was cancelled by the user
@@ -609,13 +586,13 @@ namespace GymnasticsScoringTool {
 
             else {
                 string storageFolderPathAdj = ProgramConstants.AUTOSAVE_FOLDER_ADJ;
-                string safetyMeetFileName = ProgramConstants.AUTOSAVE_FILE_NAME;
+                string safetyMeetFileName = ProgramConstants.AUTOSAVE_FILE_NAME;                                
                 await Meet.sendForSerialization(safetyMeetFileName, storageFolderPathAdj);
             }
         }
 
         private async void Button_ClickEditMeetConfiguration(object sender, RoutedEventArgs e) {
-            if (_editMeetParameters_ContentDialog == null) {
+            if(_editMeetParameters_ContentDialog==null) {
                 _editMeetParameters_ContentDialog = new ContentDialog_MeetParameters();
             }
 
@@ -697,24 +674,24 @@ namespace GymnasticsScoringTool {
         }
 
         private async void ButtonClick_GymnastFromWithinRanking(object sender, RoutedEventArgs args) {
-            if (_editGymnast_ContentDialog == null) {
+            if(_editGymnast_ContentDialog==null) {
                 _editGymnast_ContentDialog = new ContentDialog_EditGymnast();
             }
 
-            if (!(sender is Button)) {
+            if(!(sender is Button)) {
                 throw new Exception_UnexpectedDataTypeEncountered((new Button()).GetType(), sender.GetType());
             }
             Button button = sender as Button;
 
             string buttonContent = button.Content.ToString();
             int gymnastNbr;
-            if (Int32.TryParse(buttonContent, out gymnastNbr)) {
+            if(Int32.TryParse(buttonContent, out gymnastNbr)) {
                 _currentlySelectedGymnastNbr = gymnastNbr;
             }
 
             else {
                 Grid rankingGrid = button.Parent as Grid;
-                if (rankingGrid == null) {
+                if(rankingGrid==null) {
                     throw new Exception_UnexpectedDataTypeEncountered((new Grid()).GetType(), button.Parent.GetType());
                 }
 
@@ -722,9 +699,9 @@ namespace GymnasticsScoringTool {
                 int col = Grid.GetColumn(button);
 
                 var altButton = (from b in rankingGrid.Children.OfType<Button>()
-                                 where Grid.GetRow(b) == row
-                                 where Grid.GetColumn(b) == (col - 1)
-                                 select b).Single(); // should only be one
+                                  where Grid.GetRow(b) == row
+                                  where Grid.GetColumn(b) == (col - 1)
+                                  select b).Single(); // should only be one
 
                 string altButtonContent = altButton.Content.ToString();
                 if (Int32.TryParse(altButtonContent, out gymnastNbr)) {
@@ -732,7 +709,7 @@ namespace GymnasticsScoringTool {
                 }
             }
 
-            if (_currentlySelectedGymnastNbr != null) {
+            if(_currentlySelectedGymnastNbr != null) {
                 await _editGymnast_ContentDialog.ShowAsync();
                 _currentlySelectedGymnastNbr = null;
 
@@ -759,7 +736,7 @@ namespace GymnasticsScoringTool {
 
             var eventBox1StandingsUC = RankingDisplayGymnasts(eventDisplayLabel_box1.Text, _currentlySelectedDivision);
             var eventBox2StandingsUC = RankingDisplayGymnasts(eventDisplayLabel_box2.Text, _currentlySelectedDivision);
-
+            
             eventCompetition_box1.Children.Add(eventBox1StandingsUC);
             eventCompetition_box2.Children.Add(eventBox2StandingsUC);
         }
@@ -834,9 +811,9 @@ namespace GymnasticsScoringTool {
 
             var temp = UserControl_RankingDisplayGymnast.RankingDisplayOfGymnasts_ForUI("Vault");
             var dObj = HelperMethods.GetFirstVisualTreeElementWithName(temp, "RankingGrid");
-            if (dObj == null) {
+            if(dObj==null) {
                 // try / throw / catch construct is very hokie, but it allows me to get the outpuyt message I want without having to recreate it from scratch
-                try {
+                try { 
                     throw new Exception_CouldNotFindUIElement("RankingGrid", (new Grid()).GetType(), temp.GetType());
                 }
                 catch (Exception e) {
@@ -845,7 +822,7 @@ namespace GymnasticsScoringTool {
                 }
             }
             Grid rankingGrid = dObj as Grid;
-            if (rankingGrid == null) {
+            if(rankingGrid == null) {
                 try {
                     throw new Exception_UnexpectedDataTypeEncountered((new Grid()).GetType(), dObj.GetType());
                 }
@@ -858,13 +835,13 @@ namespace GymnasticsScoringTool {
             try {
                 tempTBk.Text = HelperMethods.ExploreVisualStateGroups_ForUIElement(rankingGrid);
             }
-            catch (Exception e) {
+            catch(Exception e) {
                 tempTBk.Text = e.Message;
             }
             _publicStaticDebugSpace.Children.Add(tempTBk);
         }
 
-
+        
 
 
 

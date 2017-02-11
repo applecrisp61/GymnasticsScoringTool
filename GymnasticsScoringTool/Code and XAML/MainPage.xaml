@@ -1,11 +1,12 @@
 ﻿<Page
-    x:Class="GymnasticsScoringTool.MainPage"
+    x:Class="GymnasticsScoringTool_01.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:GymnasticsScoringTool"
+    xmlns:local="using:GymnasticsScoringTool_01"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
 
     <!--
     <Page.TopAppBar>
@@ -105,7 +106,7 @@
                         FontSize="12" FontStyle="Italic" Margin="2" Padding ="5, 0, 5, 0" 
                             HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Grid>
-            </Grid>
+        </Grid>
             <Grid  Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
@@ -168,12 +169,12 @@
                 </Grid.RowDefinitions>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Template="{StaticResource ButtonLC}"
-                        Content="Save Meet"
-                        Click="Button_ClickSaveMeet"
+                <Button Template="{StaticResource ButtonLC}"
+                        Content="Save and Exit"
+                        Click="Button_ClickSaveAndExit"
                         Grid.Row="0" FontSize="20" FontWeight="Bold" Margin="2" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <Button Template="{StaticResource ButtonLC}"

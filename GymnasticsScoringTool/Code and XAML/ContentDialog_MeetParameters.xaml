@@ -1,0 +1,82 @@
+﻿<ContentDialog
+    x:Class="GymnasticsScoringTool_01.ContentDialog_MeetParameters"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GymnasticsScoringTool_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Template="{StaticResource ControlTemplate_ContentDialog}"
+    Title="Edit Meet Parameters"
+    MaxWidth="700"
+    Width="700"
+    >
+
+    <Grid Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="Meet name: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="7" x:Name="textBox_meetName" 
+                 Text="Dual Meet: Ballard vs West Seattle" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_Textual"></TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Text="Date: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="7" x:Name="textBox_meetDate" 
+                 Text="11/12/2016" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_Textual"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Text="Location: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="7" x:Name="textBox_meetLocation" 
+                 Text="Ballard HS" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_Textual"></TextBox>
+        <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3" Text="Min Score: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="5" Grid.Column="3" Grid.ColumnSpan="1" x:Name="textBox_minScore" 
+                 Text="0.0" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_Double"></TextBox>
+        <TextBlock Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="6" Text="Lowest score for an event" FontStyle="Italic"></TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3" Text="Max Score: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="6" Grid.Column="3" Grid.ColumnSpan="1" x:Name="textBox_maxScore" 
+                 Text="10.0" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_Double"></TextBox>
+        <TextBlock  Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="6" Text="Highest score for an event" FontStyle="Italic"></TextBlock>
+        <TextBlock Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="3" Text="Competitors per Team: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="1" x:Name="textBox_competitorsPerTeam" 
+                 Text="10" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_UInt16"></TextBox>
+        <TextBlock Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="6" Text="Max participants per team per event" FontStyle="Italic"></TextBlock>
+        <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="3" Text="Scores for Competition: " HorizontalAlignment="Right" TextAlignment="Right"></TextBlock>
+        <TextBox Grid.Row="9" Grid.Column="3" Grid.ColumnSpan="1" x:Name="textBox_scoresForCompetition" 
+                 Text="5" Margin="5,0,0,0" Padding="0,1,0,0"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus_UInt16"></TextBox>
+        <TextBlock Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="6" Text="Scores per event toward team competition" FontStyle="Italic"></TextBlock>
+    </Grid>
+</ContentDialog>
+

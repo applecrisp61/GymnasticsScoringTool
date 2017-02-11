@@ -1,0 +1,46 @@
+﻿<ContentDialog
+    x:Class="GymnasticsScoringTool_01.ContentDialog_TeamEventSelector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GymnasticsScoringTool_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Template="{StaticResource ControlTemplate_ContentDialog}"
+    Title="Select desired Team and Event for input"
+    >
+
+    <Grid x:Name="Grid_ContainerForSelectors">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel x:Name="StackPanel_TeamSelector" Grid.Column="0"></StackPanel>
+        <StackPanel x:Name="StackPanel_EventSelector" Grid.Column="1">
+            <Button Content="VAULT"
+                    Template="{StaticResource ButtonLC}"
+                    Margin="10,5,10,5"
+                    HorizontalAlignment="Stretch"
+                    FontWeight="Bold"
+                    Click="Button_EventSelected"/>
+            <Button Content="BARS"
+                    Template="{StaticResource ButtonLC}"
+                    Margin="10,5,10,5"
+                    HorizontalAlignment="Stretch"
+                    FontWeight="Bold"
+                    Click="Button_EventSelected"/>
+            <Button Content="BEAM"
+                    Template="{StaticResource ButtonLC}"
+                    Margin="10,5,10,5"
+                    HorizontalAlignment="Stretch"
+                    FontWeight="Bold"
+                    Click="Button_EventSelected"/>
+            <Button Content="FLOOR"
+                    Template="{StaticResource ButtonLC}"
+                    Margin="10,5,10,5"
+                    HorizontalAlignment="Stretch"
+                    FontWeight="Bold"
+                    Click="Button_EventSelected"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

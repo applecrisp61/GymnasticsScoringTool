@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="GymnasticsScoringTool.UserControl_RankingDisplayTeam"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="120"
+    d:DesignWidth="400">
+
+    <Grid x:Name="TeamGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+            <RowDefinition  Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="TBk_TeamRankScoreName" Grid.ColumnSpan="6" Text="#1   175.825 > Conway Wampuscats"
+                   FontWeight="Bold" Margin="0,0,0,10"/>
+        <TextBlock Grid.Row="1" Grid.Column="1"><Underline>Vault</Underline></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="2"><Underline>Bars</Underline></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="3"><Underline>Beam</Underline></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="4"><Underline>Floor</Underline></TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="5"><Underline>Total</Underline></TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Score by event:"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Team rank by event:"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Gap to highest team:" Margin="0,0,0,20"/>
+
+        <TextBlock x:Name="tbkScoreVault" Grid.Column="1" Grid.Row="2"></TextBlock>
+        <TextBlock x:Name="tbkScoreBars" Grid.Column="2" Grid.Row="2"></TextBlock>
+        <TextBlock x:Name="tbkScoreBeam" Grid.Column="3" Grid.Row="2"></TextBlock>
+        <TextBlock x:Name="tbkScoreFloor" Grid.Column="4" Grid.Row="2"></TextBlock>
+        <TextBlock x:Name="tbkScoreTotal" Grid.Column="5" Grid.Row="2"></TextBlock>
+
+        <TextBlock x:Name="tbkRankVault" Grid.Column="1" Grid.Row="3"></TextBlock>
+        <TextBlock x:Name="tbkRankBars" Grid.Column="2" Grid.Row="3"></TextBlock>
+        <TextBlock x:Name="tbkRankBeam" Grid.Column="3" Grid.Row="3"></TextBlock>
+        <TextBlock x:Name="tbkRankFloor" Grid.Column="4" Grid.Row="3"></TextBlock>
+        <TextBlock x:Name="tbkRankTotal" Grid.Column="5" Grid.Row="3"></TextBlock>
+
+        <TextBlock x:Name="tbkGapVault" Grid.Column="1" Grid.Row="4"></TextBlock>
+        <TextBlock x:Name="tbkGapBars" Grid.Column="2" Grid.Row="4"></TextBlock>
+        <TextBlock x:Name="tbkGapBeam" Grid.Column="3" Grid.Row="4"></TextBlock>
+        <TextBlock x:Name="tbkGapFloor" Grid.Column="4" Grid.Row="4"></TextBlock>
+        <TextBlock x:Name="tbkGapTotal" Grid.Column="5" Grid.Row="4"></TextBlock>
+    </Grid>
+</UserControl>

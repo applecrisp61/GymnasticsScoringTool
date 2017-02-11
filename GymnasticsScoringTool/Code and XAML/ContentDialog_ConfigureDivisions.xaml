@@ -1,0 +1,43 @@
+﻿<ContentDialog
+    x:Class="GymnasticsScoringTool_01.ContentDialog_ConfigureDivisions"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GymnasticsScoringTool_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Template="{StaticResource ControlTemplate_ContentDialog}"
+    Title="Configure Divisions"
+    Width="700"
+    MaxWidth="700">
+
+    <Grid x:Name="DivisionConfigGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="New Division: " 
+                   FontSize="16" FontWeight="Bold" 
+                   HorizontalAlignment="Right" Margin="2"></TextBlock>
+        <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                 x:Name="tbk_NewDivision"
+                 Text="Name of new division"
+                 FontSize="16"
+                 GotFocus="textBox_GotFocus"
+                 LostFocus="textBox_LostFocus"></TextBox>
+        <Button Grid.Row="0" Grid.Column="3" Template="{StaticResource ButtonLC}" Content="Add Division"
+                VerticalAlignment="Top" HorizontalAlignment="Center"
+                Click="Button_ClickAddDivision" Margin="0,0,0,20"></Button>
+        <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="Listing of currently configured divisions:"
+                   FontSize="16" FontWeight="Bold" HorizontalAlignment="Right"
+                   Margin="20, 0, 0, 5"></TextBlock>
+        <StackPanel x:Name="DivisionStackPanel" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"></StackPanel>
+    </Grid>
+</ContentDialog>

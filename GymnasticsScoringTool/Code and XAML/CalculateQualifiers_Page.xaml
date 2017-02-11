@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="GymnasticsScoringTool_01.CalculateQualifiers_Page"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GymnasticsScoringTool_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Canvas x:Name="ResultsCanvas" Opacity="0"></Canvas>
+        <Grid x:Name="ResultsGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Calculate Qualifiers for Advancement" FontSize="24" FontWeight="Bold" Margin="10"></TextBlock>
+            <Button Grid.Row="0" HorizontalAlignment="Right" Content="Return to Main Page" 
+                        Template="{StaticResource ButtonLC}" Click="Button_ClickReturnToMainPage" Margin="10, 10, 20, 10"></Button>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="20,10,0,0" 
+                               Text="SETTINGS" FontSize="20" FontWeight="Bold"></TextBlock>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20, 2, 0, 0">
+                    <TextBlock Text="Meet qualified for: " FontSize="18" Margin="0,0,5,0"></TextBlock>
+                    <TextBox x:Name="MeetQualifiedFor" FontSize="20" FontWeight="Bold"
+                                 GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus_Textual"></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,10,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="20, 0, 0, 0">
+                        <TextBlock FontSize="18" Margin="0,0,5,0">
+                                <Underline>Teams to advance:</Underline>
+                        </TextBlock>
+                        <TextBox x:Name="tbx_teamQualifiers" Text="X" FontSize="20"
+                             GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus_UInt16"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10, 0, 0, 0">
+                        <TextBlock FontSize="18" Margin="0,0,5,0">
+                                <Underline>Next highest placed all-arounders:</Underline>
+                        </TextBlock>
+                        <TextBox x:Name="tbx_aaQualifiers" Text="X" FontSize="20"
+                             GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus_UInt16"></TextBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="10, 0, 0, 0">
+                        <TextBlock FontSize="18" Margin="0,0,5,0">
+                                <Underline>Next highest placed event gymnasts:</Underline>
+                        </TextBlock>
+                        <TextBox x:Name="tbx_eventQualifiers" Text="X" FontSize="20"
+                             GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus_UInt16"></TextBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Margin="20, 10, 0, 0">
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBlock FontSize="14" Text="Gymnasts to exclude: " Margin="0,0,5,0"/>
+                        <TextBox x:Name="ExcludedGymnasts" FontSize="16"
+                                 GotFocus="textBox_GotFocus" LostFocus="textBox_LostFocus_ExclusionList"></TextBox>
+                    </StackPanel>
+                    <TextBlock FontSize="11" Text="Comma separated list of competitor numbers" FontStyle="Italic"/>
+                </StackPanel>
+                <TextBlock Grid.Row="4" Text="RESULTS" FontSize="20" FontWeight="Bold" Margin="20,20,0,0"></TextBlock>
+
+            </Grid>
+            <ScrollViewer Grid.Row="2" Margin="20, 10, 5, 20">
+                <StackPanel x:Name="QualifiersListing_SP"></StackPanel>
+            </ScrollViewer>
+            <Button Grid.Row="3" HorizontalAlignment="Right" Content="Print Results" 
+                        Template="{StaticResource ButtonLC}" Click="Button_ClickPrintQualifiers"  Margin="10, 10, 20, 10"></Button>
+        </Grid>
+    </Grid>
+</Page>

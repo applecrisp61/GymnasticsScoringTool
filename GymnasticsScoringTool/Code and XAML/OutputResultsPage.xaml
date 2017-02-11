@@ -1,0 +1,70 @@
+﻿<Page
+    x:Class="GymnasticsScoringTool_01.OutputResultsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GymnasticsScoringTool_01"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    x:Name="Page_PrintResults">
+
+    <Grid x:Name="RootGrid">
+        <Grid x:Name="ResultsGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="Header" Orientation="Horizontal"
+                    Grid.Row="0" Margin="20">
+                <TextBlock Text="Header Block"></TextBlock>
+            </StackPanel>
+            <Button Template="{StaticResource ButtonLC}" 
+                Content="Return To Main Page"
+                Grid.Row="0"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Right"
+                Margin="20"
+                Click="Button_ClickReturnToMainPage"/>
+            <ScrollViewer Grid.Row="1" Margin="20,0,10,0">
+                <!-- IMPORTANT: This scroll viewer cannot be in the Results_PageToPrint class, or else the page will not
+                     have any RichTextBlockOverflows... causing only the first page will be printed.
+                -->
+                <Grid             
+                    x:Name="PrintableArea"
+                    Grid.Row="1"
+                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <RichTextBlock Foreground="Black" x:Name="TextSelection" Grid.Row="0"
+                                    OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"
+                        IsTextSelectionEnabled="True" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+                    <RichTextBlock Foreground="Black" x:Name="TextContent" Grid.Row="0"
+                                    OverflowContentTarget="{Binding ElementName=FirstLinkedContainer}"
+                        IsTextSelectionEnabled="True" TextAlignment="Left" FontFamily="Segoe UI" VerticalAlignment="Top" HorizontalAlignment="Left"
+                        FontSize="14" FontWeight="Normal">
+                        <Paragraph x:Name="paragraph_MeetHeader" FontSize="18" FontWeight="Bold">Meet Header</Paragraph>
+                    </RichTextBlock>
+                    <RichTextBlockOverflow x:Name="FirstLinkedContainer" Grid.Row="1"
+                                            OverflowContentTarget="{Binding ElementName=ContinuationPageLinkedContainer}"/>
+                    <RichTextBlockOverflow x:Name="ContinuationPageLinkedContainer" Grid.Row="2"/>
+                </Grid>
+            </ScrollViewer>
+            <StackPanel x:Name="Footer" Orientation="Horizontal"
+                    Grid.Row="2" Margin="20">
+                <TextBlock Text="Footer Block"></TextBlock>
+            </StackPanel>
+            <Button Template="{StaticResource ButtonLC}" 
+                Content="Print Results"
+                Grid.Row="2"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="0, 0, 5, 5"
+                Click="Button_ClickPrintMeetResults_Formatted"/>
+        </Grid>
+        <Canvas x:Name="ResultsCanvas" Opacity="0"></Canvas>
+    </Grid>
+</Page>
